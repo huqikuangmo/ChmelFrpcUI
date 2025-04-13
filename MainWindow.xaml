@@ -1,0 +1,115 @@
+﻿<Window x:Class="UIKitTutorials.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UIKitTutorials"
+        mc:Ignorable="d" Name="home"
+        Title="MainWindow" Width="1200" Height="670"
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        Background="Transparent" AllowsTransparency="True"
+        ResizeMode="CanResize" WindowState="Normal">
+
+    <Border  CornerRadius="8" Background="{DynamicResource PrimaryBackgroundColor}" MouseDown="Border_MouseDown" >
+        <Grid ShowGridLines="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!-- Start: GridColum Left-->
+            <Border CornerRadius="8 0 0 8" Background="{DynamicResource SecundaryBackgroundColor}">
+                <Grid x:Name="gridMenu" Width="200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Logo -->
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" >
+                        <Path Data="{DynamicResource logo}" Margin="17 0 0 0" Stretch="Fill" Fill="{DynamicResource PrimaryBlueColor}" Width="25" Height="25"  HorizontalAlignment="Left"/>
+                        <Label  Content="Frpc UI" Foreground="{DynamicResource PrimaryBlueColor}" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" HorizontalContentAlignment="Left" Margin="8 0 0 0" Background="{x:Null}" BorderBrush="{x:Null}" Height="41"/>
+                    </StackPanel>
+
+                    <!-- Menu -->
+
+
+                    <StackPanel Grid.Row="3">
+                        <RadioButton x:Name="rdHome"  IsChecked="True" Content="主页" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource home}" Margin="0 10 0 10" Click="rdHome_Click">
+                            <RadioButton.Background>
+                                <ImageBrush/>
+                            </RadioButton.Background>
+                        </RadioButton>
+                        <RadioButton x:Name="SuiDao" Content="节点隧道" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource server}" Margin="0 10 0 10" Background="{x:Null}" 
+                 Checked="SuiDao_Click" Unchecked="UnSuiDao_Click"  />
+
+                        <!-- 子按钮组 -->
+                        <StackPanel x:Name="SubButtonsPanel" Margin="20,0,0,0" Visibility="Collapsed" Height="0">
+                            <RadioButton x:Name="rdSub1" Click="SuiDaoLieBiao_Click" Content="隧道列表" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource sub1}" Margin="0,5,0,5" />
+                            <RadioButton x:Name="rdSub2" Click="Peizhiwenjian_Click" Content="配置文件" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource sub2}" Margin="0,5,0,5" />
+
+                        </StackPanel>
+
+                        <RadioButton x:Name="rdNotes" Click="YuMing_Click" Content="域名管理" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource notes}" Margin="0 10 0 10" />
+                        <RadioButton x:Name="rdPayment" Content="关于"  Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource settings}" Margin="0 10 0 10" >
+
+                        </RadioButton>
+                    </StackPanel>
+
+                    <ItemsControl Grid.Row="3" VerticalAlignment="Bottom" ItemsSource="{Binding UserProfiles}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" Width="200" Margin="0 0 0 20"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="0 0 0 0" HorizontalAlignment="Left">
+                                    <Image Source="{Binding UserImg}" Width="32" Height="32" Margin="15 0 0 0"
+                                           RenderOptions.BitmapScalingMode="HighQuality">
+                                        <Image.Clip>
+                                            <EllipseGeometry Center="16,16" RadiusX="16" RadiusY="16"/>
+                                        </Image.Clip>
+                                    </Image>
+                                    <StackPanel Orientation="Vertical" Margin="0 0 0 0" HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" Foreground="{DynamicResource TextPrimaryColor}" FontSize="14" FontWeight="SemiBold" TextAlignment="Left" Margin="5,0,0,0"/>
+                                        <TextBlock Text="{Binding Mail}" Foreground="{DynamicResource PrimaryGrayColor}" FontSize="11" FontWeight="Regular" TextAlignment="Left" HorizontalAlignment="Left" Margin="5,0,0,0"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+
+                </Grid>
+            </Border>
+            <!-- End: GridColum Left-->
+
+            <!-- Start: GridColumn Rigth -->
+            <Grid Grid.Column="1" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <!-- Start: Button Close | Restore | Minimize -->
+                <StackPanel Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,15,0" Height="50" Orientation="Horizontal" FlowDirection="RightToLeft"  >
+                    <Button x:Name="btnClose" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}" Click="btnPageClose_Click" Tag="IsCloseButton"/>
+                    <Button x:Name="btnRestore" Margin="5,0" Click="btnPageRestore_Click" >
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IconButtonsStyle}">
+                                <Setter Property="Content" Value="{DynamicResource maximize}"/>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="btnMinimize" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource minimize}" Click="btnPageMinimize_Click"/>
+                </StackPanel>
+                <!-- End: Button Close | Restore | Minimize -->
+            </Grid>
+            <Frame Name="PagesNavigation" Grid.Column="1" Margin="10,55,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDown="PagesNavigation_MouseDown"/>
+
+        </Grid>
+    </Border>
+
+</Window>

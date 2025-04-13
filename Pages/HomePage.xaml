@@ -1,0 +1,275 @@
+﻿<Page x:Class="FrpcUI.Pages.HomePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:FrpcUI.Class"
+      xmlns:converters="clr-namespace:FrpcUI.Class"
+      mc:Ignorable="d" 
+      d:DesignHeight="615" d:DesignWidth="950"
+      Background="#F9FAFB"
+      FontFamily="Microsoft YaHei">
+
+
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- 左侧主要区域 -->
+        <StackPanel Grid.Column="0" Margin="10,0,20,0">
+            <!-- 消息标题 -->
+            <TextBlock Text="欢迎" FontSize="20" FontWeight="Bold" Margin="0,0,0,0"/>
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <!-- 行 1 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- 行 2 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- 行 3 -->
+                    <RowDefinition Height="*"/>
+                    <!-- 行 4 -->
+                </Grid.RowDefinitions>
+
+                <!-- 右上角绿色按钮 -->
+                <Button x:Name="EditButton" 
+        Width="120" 
+        Height="40" 
+        Background="Transparent" 
+        BorderBrush="Transparent"
+        Foreground="#673AB7" 
+        FontWeight="Bold"
+        Click="RunFrpc_Click"
+        Margin="356,0,0,0"
+        VerticalAlignment="Top"
+        HorizontalAlignment="Left">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4"
+                                SnapsToDevicePixels="True">
+                                            <ContentPresenter x:Name="contentPresenter"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Content="{TemplateBinding Content}"
+                                          Margin="8,0"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <!-- 鼠标悬停效果 -->
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="Hand"/>
+                                                <Setter TargetName="border" Property="Background" Value="#F5F5F5"/>
+                                                <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="#5E35B1"/>
+                                                <!-- 图标颜色也变化 -->
+                                                <Setter TargetName="contentPresenter" Property="Path.Fill" Value="#5E35B1"/>
+                                            </Trigger>
+
+                                            <!-- 按下效果 -->
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="#E0E0E0"/>
+                                                <Setter TargetName="border" Property="RenderTransform">
+                                                    <Setter.Value>
+                                                        <ScaleTransform ScaleX="0.98" ScaleY="0.98"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter TargetName="border" Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                            </Trigger>
+
+                                            <!-- 禁用状态 -->
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Opacity" Value="0.6"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Path Data="{DynamicResource play}" 
+              Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+              Width="20" 
+              Height="20"
+              Stretch="Uniform"
+              Margin="0,0,8,0"/>
+                        <TextBlock Text="运行" 
+                   VerticalAlignment="Center"
+                   FontSize="14"
+                   FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- 控制台内容控件 -->
+                <Border Grid.Row="3" CornerRadius="10" Background="#F5F5F5" Padding="10" BorderBrush="Transparent" Margin="0,10,0,0" Height="250">
+                    <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled"
+                  PanningMode="VerticalOnly">
+                        <TextBox x:Name="cmdOutput" 
+                 Text="" 
+                 Foreground="#424242" 
+                 FontSize="14" 
+                 Background="Transparent" 
+                 BorderThickness="0" 
+                 IsReadOnly="True" 
+                 TextWrapping="Wrap"
+                 AcceptsReturn="True"
+                 VerticalAlignment="Top"
+                 HorizontalAlignment="Stretch"/>
+                    </ScrollViewer>
+                </Border>
+
+            </Grid>
+
+
+            <!-- 帐户设置 -->
+            <TextBlock Text="账户设置" FontSize="16" FontWeight="SemiBold" Margin="0,5,0,20"/>
+
+            <UniformGrid Columns="2" Margin="10,0,0,40">
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <Path Data="{DynamicResource key}" Width="24" Height="24" Fill="#D1C4E9"/>
+                    <TextBlock Text="重置Token" VerticalAlignment="Center" Margin="10,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <Path Data="{DynamicResource user}" Width="24" Height="24" Fill="#FFCDD2"/>
+                    <TextBlock Text="修改用户名" VerticalAlignment="Center" Margin="10,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <Path Data ="{DynamicResource userimage}" Width="24" Height="24" Fill="#C8E6C9"/>
+                    <TextBlock Text="更改头像" VerticalAlignment="Center" Margin="10,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <Path Data="{DynamicResource password}" Width="24" Height="24" Fill="#FFE0B2"/>
+                    <TextBlock Text="修改密码" VerticalAlignment="Center" Margin="10,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <Path Data="{DynamicResource email}" Width="24" Height="24" Fill="#BBDEFB"/>
+                    <TextBlock Text="更改邮箱" VerticalAlignment="Center" Margin="10,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <Path Data="{DynamicResource qq}" Width="24" Height="24" Fill="#BDBDBD"/>
+                    <TextBlock Text="更改QQ号" VerticalAlignment="Center" Margin="10,0"/>
+                </StackPanel>
+            </UniformGrid>
+        </StackPanel>
+
+        <!-- 右侧功能区域 -->
+        <StackPanel Grid.Column="1" Margin="20,0,0,0">
+            <!-- 兑换码 -->
+            <TextBlock Text="使用兑换码" FontSize="16" FontWeight="SemiBold" Margin="0,55,0,4"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                <Border Width="200" Height="35"  CornerRadius="10"  Margin="0,0,10,0" Background="#F5F5F5" Opacity="0.4">
+                    <TextBox Width="Auto"  Height="Auto" Text="还在开发中~" BorderThickness="0" Background="Transparent" Foreground="#424242" FontSize="14" IsReadOnly="True" VerticalAlignment="Center" />
+                </Border>
+                <Button Content="兑换" Width="50" Height="25" Background="#8E54E5" BorderBrush="#E0E0E0" Margin="80,8" Foreground="#F5F5F5">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="border" 
+                        CornerRadius="5" 
+                        Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="1">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <!-- 鼠标悬停效果 -->
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#6633CC"/>
+                                </Trigger>
+                                <!-- 按下效果 -->
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#6633CC"/>
+                                </Trigger>
+                                <!-- 禁用状态 -->
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="border" Property="Background" Value="#EEEEEE"/>
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#E0E0E0"/>
+                                    <Setter Property="Foreground" Value="#9E9E9E"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+
+            <!-- 用户详情卡片 -->
+            <ItemsControl ItemsSource="{Binding LoginModels}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border  CornerRadius="10" Background="White" Padding="20" BorderBrush="#E0E0E0" BorderThickness="1">
+                            <Grid>
+                                <!-- 上半部分 -->
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <!-- 标题部分 -->
+                                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
+                                    <StackPanel Margin="0,0">
+                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="16"/>
+                                        <TextBlock Text="{Binding Mail}" FontSize="12" Margin="0,10,0,0" HorizontalAlignment="Center" Foreground="#757575"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+
+                                <!-- 信息排列 -->
+                                <Grid Grid.Row="1" Margin="0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- 左对齐 -->
+                                    <StackPanel Grid.Column="0" Margin="20">
+                                        <TextBlock Text="注册时间" Foreground="#757575" Margin="0,10"/>
+                                        <TextBlock Text="到期时间" Foreground="#757575" Margin="0,10"/>
+                                        <TextBlock Text="隧道限制" Foreground="#757575" Margin="0,10"/>
+                                        <TextBlock Text="国内带宽" Foreground="#757575" Margin="0,10"/>
+                                        <TextBlock Text="实名状态" Foreground="#757575" Margin="0,10"/>
+                                        <TextBlock Text="剩余积分" Foreground="#757575" Margin="0,10"/>
+                                    </StackPanel>
+
+                                    <!-- 右对齐内容 -->
+                                    <StackPanel Grid.Column="1" Margin="20">
+                                        <TextBlock Text="{Binding DateOut, StringFormat='yyyy-MM-dd'}" Margin="0,10"/>
+                                        <TextBlock Text="9999-99-99" Margin="0,10"/>
+                                        <TextBlock Text="{Binding Tunnel}" Margin="0,10"/>
+                                        <TextBlock Text="{Binding Bandwidth}" Margin="0,10"/>
+                                        <TextBlock Text="{Binding RealName}" Margin="0,10"/>
+                                        <TextBlock Text="{Binding Integral}" Margin="0,10"/>
+
+                                    </StackPanel>
+                                </Grid>
+                                <StackPanel Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,250" Width="Auto">
+                                    <TextBlock x:Name="token" Width="Auto" TextWrapping="Wrap" Text="{Binding Token}" Visibility="Collapsed" MouseLeftButtonDown="Token_MouseLeftButtonDown">
+                                        <TextBlock.ToolTip>
+                                            <ToolTip Content="点击进行复制"/>
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
+                                </StackPanel>
+
+
+                                <Button Grid.Row="4" Content="点击显示Token" Background="Transparent" 
+                                    Foreground="#9C27B0" BorderThickness="0" Margin="0,280,0,0" VerticalAlignment="Top"
+                                    Click="ShowToken_Click"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+
+        </StackPanel>
+    </Grid>
+</Page>

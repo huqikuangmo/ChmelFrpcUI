@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <ApplicationIcon>w8h9p-6i8rs-001.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Control\**" />
+    <Compile Remove="Resource\**" />
+    <EmbeddedResource Remove="Control\**" />
+    <EmbeddedResource Remove="Resource\**" />
+    <None Remove="Control\**" />
+    <None Remove="Resource\**" />
+    <Page Remove="Control\**" />
+    <Page Remove="Resource\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Class\BooleanToVisibilityConverter.cs" />
+    <Compile Remove="Class\CompositeViewModel.cs" />
+    <Compile Remove="Class\Huoqusuidao.cs" />
+    <Compile Remove="Class\SuidaoService.cs" />
+    <Compile Remove="Class\SuidaoViewModel.cs" />
+    <Compile Remove="Class\TunnelModel.cs" />
+    <Compile Remove="Class\VisualTreeExtensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\w8h9p-6i8rs-001.ico" />
+    <Content Include="w8h9p-6i8rs-001.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\close.png" />
+    <Resource Include="Images\Email.png" />
+    <Resource Include="Images\facebook.png" />
+    <Resource Include="Images\google.png" />
+    <Resource Include="Images\linkedin.png" />
+    <Resource Include="Images\Lock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Avatars\avatar-2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Frpc\frpc.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Frpc\frpc.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Frpc\frpc_full.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
